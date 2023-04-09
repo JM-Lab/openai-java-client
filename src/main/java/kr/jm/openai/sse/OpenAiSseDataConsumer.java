@@ -37,18 +37,18 @@ public class OpenAiSseDataConsumer implements ResponseBodyConsumer<List<OpenAiSs
     }
 
     @Override
-    public void onBodyStart(String contentType, String charset, long contentLength) throws Exception {
+    public void onBodyStart(String contentType, String charset, long contentLength) {
         this.openAiSseRawConsumer.onBodyStart(contentType, charset, contentLength);
         this.openAiSseDataList = new ArrayList<>();
     }
 
     @Override
-    public void onReceivedContentPart(ByteBuffer byteBuffer) throws Exception {
+    public void onReceivedContentPart(ByteBuffer byteBuffer) {
         this.openAiSseRawConsumer.onReceivedContentPart(byteBuffer);
     }
 
     @Override
-    public void onCompletedBody() throws Exception {
+    public void onCompletedBody() {
         this.openAiSseRawConsumer.onCompletedBody();
     }
 

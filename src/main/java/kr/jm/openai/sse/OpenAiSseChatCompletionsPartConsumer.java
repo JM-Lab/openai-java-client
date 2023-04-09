@@ -11,9 +11,7 @@ import kr.jm.openai.dto.sse.OpenAiSseData;
 import kr.jm.utils.JMOptional;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Consumer;
 
 public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsumer<OpenAiChatCompletionsResponse> {
@@ -43,16 +41,20 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
     }
 
     private void handleOpenAiSseData(OpenAiSseData openAiSseData) {
-        ChoicesItem choicesItem = openAiSseData.getChoices().get(0);
-        if (!"stop".equals(choicesItem.getFinishReason()))
-            JMOptional.getOptional(choicesItem.getDelta(), "content").ifPresentOrElse(
-                    this::appendPart, () -> JMOptional.getOptional(choicesItem.getDelta(), "role")
-                            .ifPresent(role -> initRole(openAiSseData, Role.valueOf(role))));
+        Optional.ofNullable(openAiSseData).map(OpenAiSseData::getChoices).map(list -> list.get(0))
+                .filter(choicesItem -> !"stop".equals(choicesItem.getFinishReason()))
+                .map(ChoicesItem::getDelta).ifPresent(delta -> handleOpenAiSseData(openAiSseData, delta));
+    }
+
+    private void handleOpenAiSseData(OpenAiSseData openAiSseData, Map<String, String> delta) {
+        JMOptional.getOptional(delta, "content").ifPresentOrElse(
+                this::appendPart, () -> JMOptional.getOptional(delta, "role")
+                        .ifPresent(role -> initRole(openAiSseData, Role.valueOf(role))));
     }
 
     private void initRole(OpenAiSseData openAiSseData, Role role) {
         if (Objects.isNull(this.openAiChatCompletionsResponse.getChoices()))
-            initCompletionResopnse(openAiSseData);
+            initCompletionResponse(openAiSseData);
         else {
             completeMessage(this.openAiChatCompletionsResponse.getChoices()
                     .get(this.openAiChatCompletionsResponse.getChoices().size() - 1));
@@ -62,7 +64,7 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
                 .add(new ChatChoice().setMessage(new Message(role, null)));
     }
 
-    private void initCompletionResopnse(OpenAiSseData openAiSseData) {
+    private void initCompletionResponse(OpenAiSseData openAiSseData) {
         this.openAiChatCompletionsResponse.setChoices(new ArrayList<>()).setId(openAiSseData.getId())
                 .setObject(openAiSseData.getObject()).setCreated(openAiSseData.getCreated())
                 .setModel(openAiSseData.getModel());
@@ -78,7 +80,7 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
     }
 
     @Override
-    public void onCompletedBody() throws Exception {
+    public void onCompletedBody() {
         completeMessage(this.openAiChatCompletionsResponse.getChoices()
                 .get(this.openAiChatCompletionsResponse.getChoices().size() - 1));
     }

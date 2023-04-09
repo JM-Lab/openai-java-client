@@ -20,12 +20,12 @@ public class OpenAiSseRawConsumer implements ResponseBodyConsumer<List<String>> 
     }
 
     @Override
-    public void onBodyStart(String contentType, String charset, long contentLength) throws Exception {
+    public void onBodyStart(String contentType, String charset, long contentLength) {
         this.rawDataList = new ArrayList<>();
     }
 
     @Override
-    public void onReceivedContentPart(ByteBuffer buffer) throws Exception {
+    public void onReceivedContentPart(ByteBuffer buffer) {
         onReceivedContentPart(Charset.defaultCharset().decode(buffer).toString());
     }
 
@@ -35,7 +35,7 @@ public class OpenAiSseRawConsumer implements ResponseBodyConsumer<List<String>> 
     }
 
     @Override
-    public void onCompletedBody() throws Exception {
+    public void onCompletedBody() {
     }
 
     @Override
