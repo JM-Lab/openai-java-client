@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>kr.jmlab</groupId>
     <artifactId>openai-java-client</artifactId>
-    <version>0.1.1</version>
+    <version>0.1.2</version>
     <packaging>jar</packaging>
     <name>OpenAI Java Client</name>
     <description>Java Client for OpenAI API</description>
@@ -35,7 +35,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <slf4j.version>1.7.36</slf4j.version>
-        <junit.version>5.9.2</junit.version>
+        <junit.version>5.9.3</junit.version>
         <jmlab-utils-java11.version>0.1.4.1</jmlab-utils-java11.version>
         <king-http-client.version>3.0.24</king-http-client.version>
         <lombok.version>1.18.26</lombok.version>
@@ -132,6 +132,11 @@
             <version>${king-http-client.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.knuddels</groupId>
+            <artifactId>jtokkit</artifactId>
+            <version>0.6.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
@@ -146,6 +151,12 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
