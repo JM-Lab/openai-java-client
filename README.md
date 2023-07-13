@@ -53,7 +53,7 @@ OpenAI Completions API Client
   * [OpenAI Chat API](https://platform.openai.com/docs/api-reference/chat)
 * **[OpenAiCompletions.java](https://github.com/JM-Lab/openai-java-client/tree/master/src/main/java/kr/jm/openai/OpenAiCompletions.java)**
   * [OpenAI Completions API](https://platform.openai.com/docs/api-reference/completions)
-* **[GptTokenAnalyzer.java](https://github.com/JM-Lab/openai-java-client/tree/master/src/main/java/kr/jm/openai/GptTokenAnalyzer.java)**
+* **[GptTokenAnalyzer.java]([https://github.com/JM-Lab/openai-java-client/tree/master/src/main/java/kr/jm/openai/GptTokenAnalyzer.java](https://github.com/JM-Lab/openai-java-client/blob/master/src/main/java/kr/jm/openai/token/GptTokenAnalyzer.java))**
   * [jtokkit](https://github.com/knuddelsgmbh/jtokkit)
 
 ### For Example :
