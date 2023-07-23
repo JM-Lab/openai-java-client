@@ -8,14 +8,14 @@ import java.util.List;
 public class TokenAnalysis {
     String prompt;
     List<Integer> tokenIds;
-    List<String> readableParts;
     List<Integer> partTokenCounts;
-
-    public int getPromptLength() {
-        return this.prompt.length();
-    }
+    List<String> readableParts;
 
     public int getTokenCount() {
         return this.tokenIds.size();
+    }
+
+    public int getPromptLength() {
+        return this.prompt.length();
     }
 }
