@@ -47,7 +47,7 @@ class OpenAiSseClientTest {
         CompletableFuture<HttpResponse<OpenAiChatCompletionsResponse>> httpResponseCompletableFuture =
                 openAiSseClient.consumeServerSentEvent(openAiApiConf, JMJson.getInstance().toJsonString(
                                 new OpenAiChatCompletionsRequest().setModel("gpt-3.5-turbo").setStream(true)
-                                        .setMessages(List.of(new Message(user, "인공지능 공부하는 법 자세히 알려줘")))),
+                                        .setMessages(List.of(new Message(user, "인공지능 공부하는 법 간단히 알려줘")))),
                         openAiSsePartConsumer);
         OpenAiChatCompletionsResponse responseBody = httpResponseCompletableFuture.get().getBody();
         System.out.println(responseBody);
@@ -66,7 +66,7 @@ class OpenAiSseClientTest {
         CompletableFuture<HttpResponse<List<OpenAiSseData>>> httpResponseCompletableFuture =
                 openAiSseClient.consumeServerSentEvent(openAiApiConf, JMJson.getInstance().toJsonString(
                                 new OpenAiChatCompletionsRequest().setModel("gpt-3.5-turbo").setStream(true)
-                                        .setMessages(List.of(new Message(user, "인공지능 공부하는 법 자세히 알려줘")))),
+                                        .setMessages(List.of(new Message(user, "인공지능 공부하는 법 간단히 알려줘")))),
                         openAiSseDataConsumer);
         List<OpenAiSseData> responseBody = httpResponseCompletableFuture.get().getBody();
         System.out.println(responseBody);
@@ -86,7 +86,7 @@ class OpenAiSseClientTest {
         CompletableFuture<HttpResponse<List<String>>> httpResponseCompletableFuture =
                 openAiSseClient.consumeServerSentEvent(openAiApiConf, JMJson.getInstance().toJsonString(
                                 new OpenAiChatCompletionsRequest().setModel("gpt-3.5-turbo").setStream(true)
-                                        .setMessages(List.of(new Message(user, "인공지능 공부하는 법 자세히 알려줘")))),
+                                        .setMessages(List.of(new Message(user, "인공지능 공부하는 법 간단히 알려줘")))),
                         openAiSseRawConsumer);
         List<String> responseBody = httpResponseCompletableFuture.get().getBody();
         System.out.println(responseBody);

@@ -9,6 +9,7 @@ import kr.jm.openai.dto.Role;
 import kr.jm.openai.dto.sse.ChoicesItem;
 import kr.jm.openai.dto.sse.OpenAiSseData;
 import kr.jm.utils.JMOptional;
+import kr.jm.utils.JMString;
 
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -29,14 +30,14 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
     }
 
     @Override
-    public void onBodyStart(String contentType, String charset, long contentLength) throws Exception {
+    public void onBodyStart(String contentType, String charset, long contentLength) {
         this.openAiSseDataConsumer.onBodyStart(contentType, charset, contentLength);
         this.openAiChatCompletionsResponse = new OpenAiChatCompletionsResponse();
         this.tempMessageBuilder = new StringBuilder();
     }
 
     @Override
-    public void onReceivedContentPart(ByteBuffer buffer) throws Exception {
+    public void onReceivedContentPart(ByteBuffer buffer) {
         this.openAiSseDataConsumer.onReceivedContentPart(buffer);
     }
 
@@ -47,9 +48,8 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
     }
 
     private void handleOpenAiSseData(OpenAiSseData openAiSseData, Map<String, String> delta) {
-        JMOptional.getOptional(delta, "content").ifPresentOrElse(
-                this::appendPart, () -> JMOptional.getOptional(delta, "role")
-                        .ifPresent(role -> initRole(openAiSseData, Role.valueOf(role))));
+        JMOptional.getOptional(delta, "role").ifPresentOrElse(role -> initRole(openAiSseData, Role.valueOf(role)),
+                ()-> JMOptional.getOptional(delta, "content").filter(JMString::isNotNullOrBlank).ifPresent(this::appendPart));
     }
 
     private void initRole(OpenAiSseData openAiSseData, Role role) {
