@@ -12,7 +12,7 @@ capabilities into their Java applications.
 
 ## version
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/kr.jmlab/openai-java-client/badge.svg)](http://search.maven.org/#artifactdetails%7Ckr.jmlab%7Copenai-java-client%7C0.1.2%7Cjar)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/kr.jmlab/openai-java-client/badge.svg)](http://search.maven.org/#artifactdetails%7Ckr.jmlab%7Copenai-java-client%7C0.1.3%7Cjar)
 
 ## Prerequisites:
 
@@ -23,7 +23,7 @@ capabilities into their Java applications.
 Gradle:
 
 ```groovy
-compile 'kr.jmlab:openai-java-client:0.1.2'
+compile 'kr.jmlab:openai-java-client:0.1.3'
 ```
 
 Maven:
@@ -33,7 +33,7 @@ Maven:
 <dependency>
     <groupId>kr.jmlab</groupId>
     <artifactId>openai-java-client</artifactId>
-    <version>0.1.2</version>
+    <version>0.1.3</version>
 </dependency>
 ```
 
@@ -43,7 +43,7 @@ Checkout the source code:
 
     git clone https://github.com/JM-Lab/openai-java-client.git
     cd openai-java-client
-    git checkout -b 0.1.2 origin/0.1.2
+    git checkout -b 0.1.3 origin/0.1.3
     mvn install
 
 ## Features :
