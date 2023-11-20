@@ -15,6 +15,7 @@ import kr.jm.utils.http.JMHttpRequester;
 import org.slf4j.Logger;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 public interface OpenAiCompletionsInterface<RQ extends DefaultOpenAiCompletionsRequestInterface, RS> {
 
@@ -23,12 +24,13 @@ public interface OpenAiCompletionsInterface<RQ extends DefaultOpenAiCompletionsR
                     .setSerializationInclusion(JsonInclude.Include.NON_NULL)
                     .setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE));
 
-    default CompletableFuture<RS> requestWithSse(RQ body, ResponseBodyConsumer<RS> openAiSsePartConsumer) {
+    default CompletableFuture<RS> requestWithSse(RQ body,
+            Supplier<ResponseBodyConsumer<RS>> openAiSsePartConsumerSupplier) {
         body.setStream(true);
         String response = JmJson.toJsonString(body);
         JMLog.debug(getLog(), "requestWithSse", body, response);
         return OpenAiSseClient.getInstance().consumeServerSentEvent(getOpenAiApiConf(),
-                response, openAiSsePartConsumer).thenApply(HttpResponse::getBody);
+                response, openAiSsePartConsumerSupplier).thenApply(HttpResponse::getBody);
     }
 
     default RS request(RQ body) {

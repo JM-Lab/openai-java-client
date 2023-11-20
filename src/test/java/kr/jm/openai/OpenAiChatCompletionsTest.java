@@ -89,15 +89,14 @@ class OpenAiChatCompletionsTest {
         System.out.println(prompt);
 
         StringBuilder resultBuilder = new StringBuilder();
-        OpenAiSseChatCompletionsPartConsumer openAiSsePartConsumer = new OpenAiSseChatCompletionsPartConsumer(part -> {
-            System.out.print(part);
-            resultBuilder.append(part);
-        });
         CompletableFuture<OpenAiChatCompletionsResponse> openAiChatCompletionsResponseCompletableFuture =
                 openAiChatCompletions.requestWithSse(
                         new OpenAiChatCompletionsRequest().setModel("gpt-3.5-turbo").setMaxTokens(3000).setMessages(
                                 List.of(new Message(system, systemPrompt), new Message(user, prompt))),
-                        openAiSsePartConsumer);
+                        () -> new OpenAiSseChatCompletionsPartConsumer(part -> {
+                            System.out.print(part);
+                            resultBuilder.append(part);
+                        }));
         System.out.println(resultBuilder);
         OpenAiChatCompletionsResponse responseBody = openAiChatCompletionsResponseCompletableFuture.get();
         System.out.println(responseBody);

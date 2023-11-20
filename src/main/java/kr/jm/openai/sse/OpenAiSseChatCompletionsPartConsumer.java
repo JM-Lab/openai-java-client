@@ -49,7 +49,8 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
 
     private void handleOpenAiSseData(OpenAiSseData openAiSseData, Map<String, String> delta) {
         JMOptional.getOptional(delta, "role").ifPresentOrElse(role -> initRole(openAiSseData, Role.valueOf(role)),
-                ()-> JMOptional.getOptional(delta, "content").filter(JMString::isNotNullOrBlank).ifPresent(this::appendPart));
+                () -> JMOptional.getOptional(delta, "content").filter(JMString::isNotNullOrBlank)
+                        .ifPresent(this::appendPart));
     }
 
     private void initRole(OpenAiSseData openAiSseData, Role role) {
@@ -81,8 +82,8 @@ public class OpenAiSseChatCompletionsPartConsumer implements ResponseBodyConsume
 
     @Override
     public void onCompletedBody() {
-        completeMessage(this.openAiChatCompletionsResponse.getChoices()
-                .get(this.openAiChatCompletionsResponse.getChoices().size() - 1));
+        JMOptional.getOptional(this.openAiChatCompletionsResponse.getChoices())
+                .ifPresent(choices -> completeMessage(choices.get(choices.size() - 1)));
     }
 
     @Override

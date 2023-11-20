@@ -13,15 +13,16 @@ public class OpenAiSseRawConsumer implements ResponseBodyConsumer<List<String>> 
 
     private final Consumer<String> openAiSseConsumer;
 
-    private List<String> rawDataList;
+    private final List<String> rawDataList;
 
     public OpenAiSseRawConsumer(Consumer<String> openAiSseConsumer) {
         this.openAiSseConsumer = openAiSseConsumer;
+        this.rawDataList = new ArrayList<>();
     }
 
     @Override
     public void onBodyStart(String contentType, String charset, long contentLength) {
-        this.rawDataList = new ArrayList<>();
+
     }
 
     @Override

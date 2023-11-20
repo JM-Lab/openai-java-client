@@ -8,6 +8,7 @@ import com.king.platform.net.http.netty.NettyHttpClientBuilder;
 import kr.jm.openai.OpenAiApiConf;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Supplier;
 
 import static com.king.platform.net.http.ConfKeys.IDLE_TIMEOUT_MILLIS;
 import static kr.jm.openai.OpenAiApiConf.AUTHORIZATION;
@@ -30,10 +31,10 @@ public class OpenAiSseClient {
     }
 
     public <T> CompletableFuture<HttpResponse<T>> consumeServerSentEvent(OpenAiApiConf openAiApiConf, String body,
-            ResponseBodyConsumer<T> responseBodyConsumer) {
+            Supplier<ResponseBodyConsumer<T>> responseBodyConsumerSupplier) {
         return httpClient.createPost(openAiApiConf.getOpenAIUrl())
                 .contentType(openAiApiConf.getHeaders().get(CONTENT_TYPE))
                 .content(body.getBytes()).addHeader(AUTHORIZATION, openAiApiConf.getHeaders().get(AUTHORIZATION))
-                .build(() -> responseBodyConsumer).execute();
+                .build(responseBodyConsumerSupplier).execute();
     }
 }
